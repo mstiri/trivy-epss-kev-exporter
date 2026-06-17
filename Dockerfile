@@ -6,9 +6,11 @@
 FROM --platform=$BUILDPLATFORM golang:1.26 AS build
 WORKDIR /src
 
-# Module download is cached separately from the source for fast rebuilds.
+# go/pkg/mod and go-build are mounted as BuildKit caches so compiled packages
+# survive across builds without being baked into the image layer.
 COPY go.mod go.sum ./
-RUN go mod download
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download
 
 COPY . .
 
@@ -21,7 +23,9 @@ ARG TARGETOS=linux
 ARG TARGETARCH=amd64
 
 ENV CGO_ENABLED=0
-RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -trimpath \
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -trimpath \
       -ldflags="-s -w \
         -X github.com/prometheus/common/version.Version=${VERSION} \
         -X github.com/prometheus/common/version.Revision=${REVISION} \
