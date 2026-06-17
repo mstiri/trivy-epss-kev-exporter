@@ -25,7 +25,8 @@ import (
 // Default bulk feed URLs (overridable via Config / flags).
 const (
 	DefaultEPSSURL = "https://epss.empiricalsecurity.com/epss_scores-current.csv.gz"
-	DefaultKEVURL  = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+	// DefaultKEVURL uses the GitHub mirror instead of the CISA.gov endpoint
+	DefaultKEVURL = "https://raw.githubusercontent.com/cisagov/kev-data/refs/heads/develop/known_exploited_vulnerabilities.json"
 )
 
 // Config is the runtime configuration (populated from flags/env in cmd).
