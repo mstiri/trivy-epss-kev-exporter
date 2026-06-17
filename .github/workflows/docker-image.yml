@@ -2,7 +2,7 @@ name: build-image
 
 on:
   push:
-    branches: [main, build]
+    branches: [main]
     tags: ['v*']
   pull_request:
     branches: [main]
