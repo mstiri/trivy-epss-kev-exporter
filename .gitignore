@@ -1,0 +1,15 @@
+# OS / editor cruft
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Go build / test output
+/bin/
+*.test
+*.out
+*.cover
+coverage.*
+
+# Deployment manifests (managed separately)
+/deploy/
