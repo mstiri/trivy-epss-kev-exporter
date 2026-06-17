@@ -50,7 +50,7 @@ func run() error {
 		workers          = fs.Int("workers", 2, "number of concurrent reconcile workers")
 		enableRollup     = fs.Bool("enable-rollup", true, "roll ReplicaSet workloads up to their owning Deployment (needs read RBAC on replicasets)")
 		enableRansomware = fs.Bool("enable-ransomware", true, "emit the trivy_vuln_kev_ransomware gauge")
-		userAgent        = fs.String("user-agent", "Mozilla/5.0 (compatible; trivy-epss-kev-exporter/"+version.Version+"; +https://github.com/mstiri/trivy-epss-kev-exporter)", "User-Agent header for feed requests")
+		userAgent        = fs.String("user-agent", "trivy-epss-kev-exporter/"+version.Version+" (+https://github.com/mstiri/trivy-epss-kev-exporter)", "User-Agent header for feed requests")
 	)
 	if err := fs.Parse(os.Args[1:]); err != nil {
 		if errors.Is(err, flag.ErrHelp) {

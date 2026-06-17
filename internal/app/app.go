@@ -210,22 +210,26 @@ func (a *App) Run(ctx context.Context) error {
 	}
 }
 
-// userAgentTransport sets a User-Agent on outbound feed requests (some feed
-// hosts, notably CISA, reject blank UAs).
-type userAgentTransport struct {
+// feedTransport sets headers on outbound feed requests. CISA's CDN requires
+// Accept: application/json (returns 403 without it); User-Agent avoids blank-UA
+// rejections from other hosts.
+type feedTransport struct {
 	ua   string
 	next http.RoundTripper
 }
 
-func (t *userAgentTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+func (t *feedTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+	req = req.Clone(req.Context())
 	if req.Header.Get("User-Agent") == "" {
-		req = req.Clone(req.Context())
 		req.Header.Set("User-Agent", t.ua)
+	}
+	if req.Header.Get("Accept") == "" {
+		req.Header.Set("Accept", "application/json, application/octet-stream, */*")
 	}
 	return t.next.RoundTrip(req)
 }
 
 func newHTTPClient(timeout time.Duration, ua string) *http.Client {
 	base := http.DefaultTransport.(*http.Transport).Clone()
-	return &http.Client{Timeout: timeout, Transport: &userAgentTransport{ua: ua, next: base}}
+	return &http.Client{Timeout: timeout, Transport: &feedTransport{ua: ua, next: base}}
 }
