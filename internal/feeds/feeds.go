@@ -69,9 +69,19 @@ func (r *Refresher) RefreshOnce(ctx context.Context) (changed bool, err error) {
 	res.Apply()
 	r.sink.FeedRefreshSucceeded(r.name, time.Now())
 
-	changed = !r.have || res.Marker != r.last
+	firstLoad := !r.have
+	changed = firstLoad || res.Marker != r.last
 	r.last = res.Marker
 	r.have = true
+
+	switch {
+	case firstLoad:
+		klog.InfoS("feed loaded", "feed", r.name, "marker", res.Marker)
+	case changed:
+		klog.InfoS("feed content changed; re-enriching all reports", "feed", r.name, "marker", res.Marker)
+	default:
+		klog.V(4).InfoS("feed unchanged; skipping re-enrichment sweep", "feed", r.name, "marker", res.Marker)
+	}
 
 	if changed && r.onChange != nil {
 		r.onChange()
