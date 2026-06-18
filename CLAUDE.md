@@ -144,9 +144,7 @@ Two gauges, one series per (CVE × workload × container × resource):
 | `trivy_vuln_epss_score` | gauge | EPSS probability `0.0–1.0` (the raw float, as a VALUE) |
 | `trivy_vuln_epss_percentile` | gauge | EPSS percentile `0.0–1.0` |
 | `trivy_vuln_kev` | gauge | `1` if CVE is in the CISA KEV catalog, else `0` |
-
-Optional (decide during build):
-| `trivy_vuln_kev_ransomware` | gauge | `1` if KEV `knownRansomwareCampaignUse == "Known"` |
+| `trivy_vuln_kev_ransomware` | gauge | `1` if KEV `knownRansomwareCampaignUse == "Known"`. Optional (decide during build) |
 
 ### Missing-data semantics (EPSS absent)
 
