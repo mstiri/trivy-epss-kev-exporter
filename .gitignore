@@ -13,3 +13,6 @@ coverage.*
 
 # Deployment manifests (managed separately)
 /deploy/
+
+# Local notes (not for public distribution)
+/local/
