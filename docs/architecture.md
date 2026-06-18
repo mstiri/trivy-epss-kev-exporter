@@ -61,7 +61,7 @@ internal/
                     (EPSS model_version/score_date, KEV catalogVersion) to
                     detect real changes and skip unnecessary sweeps.
 
-  controller/       client-go SharedInformerFactory + workqueue.
+  controller/       client-go DynamicSharedInformerFactory + workqueue.
                     Watches VulnerabilityReports cluster-wide.
                     Optionally watches ReplicaSets to roll RS→Deployment
                     workload labels up to the stable Deployment name.
