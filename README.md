@@ -121,8 +121,9 @@ last good data) and exposed freshness self-metrics.
 
 Contributions are welcome! See [`CONTRIBUTING.md`](CONTRIBUTING.md) and our
 [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md). For a guided tour of the codebase
-start with [`docs/architecture.md`](docs/architecture.md); the full design
-rationale and stable metric contract are in [`CLAUDE.md`](CLAUDE.md).
+start with [`docs/architecture.md`](docs/architecture.md); the complete metrics
+reference is in [`docs/metrics.md`](docs/metrics.md); the full design rationale
+and stable metric contract are in [`CLAUDE.md`](CLAUDE.md).
 
 ## License
 
