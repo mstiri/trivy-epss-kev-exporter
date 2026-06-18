@@ -82,8 +82,8 @@ func New(opts Options) *Metrics {
 	}, enrich.LabelNames)
 
 	m.feedLastSuccess = prometheus.NewGaugeVec(prometheus.GaugeOpts{
-		Name: "trivy_exporter_feed_last_success_timestamp",
-		Help: "Unix timestamp (seconds) of the last successful refresh of a feed.",
+		Name: "trivy_exporter_feed_last_success_timestamp_seconds",
+		Help: "Unix timestamp of the last successful refresh of a feed (seconds).",
 	}, []string{"feed"})
 	m.feedFailures = prometheus.NewCounterVec(prometheus.CounterOpts{
 		Name: "trivy_exporter_feed_refresh_failures_total",

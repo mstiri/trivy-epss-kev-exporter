@@ -74,7 +74,7 @@ daily refresh that returns identical data needlessly re-enriches everything.
 - Fallback: hash the raw payload and compare.
 
 On a successful-but-unchanged refresh, still update
-`trivy_exporter_feed_last_success_timestamp`; just don't sweep.
+`trivy_exporter_feed_last_success_timestamp_seconds`; just don't sweep.
 
 ### Series lifecycle — enrich() must REPLACE, not just upsert
 
@@ -473,7 +473,7 @@ report:
 ## Self-metrics (operability)
 
 ```
-trivy_exporter_feed_last_success_timestamp{feed="epss|kev"}  gauge (unix secs)
+trivy_exporter_feed_last_success_timestamp_seconds{feed="epss|kev"}  gauge (unix secs)
 trivy_exporter_feed_refresh_failures_total{feed="epss|kev"}  counter
 trivy_exporter_reports_processed_total                       counter
 trivy_exporter_cves_enriched_total                           counter

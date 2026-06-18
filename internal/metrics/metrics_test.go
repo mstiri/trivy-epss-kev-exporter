@@ -212,7 +212,7 @@ func TestSelfMetrics(t *testing.T) {
 	m := New(Options{})
 
 	m.FeedRefreshSucceeded("epss", time.Unix(1000, 0))
-	if v, ok := findValue(t, m.reg, "trivy_exporter_feed_last_success_timestamp", map[string]string{"feed": "epss"}); !ok || v != 1000 {
+	if v, ok := findValue(t, m.reg, "trivy_exporter_feed_last_success_timestamp_seconds", map[string]string{"feed": "epss"}); !ok || v != 1000 {
 		t.Errorf("feed_last_success epss = %v ok=%v, want 1000", v, ok)
 	}
 
