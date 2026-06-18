@@ -31,9 +31,11 @@ There is **one idempotent operation** — `enrich(report)` — driven by **two
 independent triggers**. Do not collapse these onto a single clock.
 
 ```
-SharedInformer (VulnerabilityReport CRDs)
-   ├─ warm in-memory cache  ← Lister reads from here
+DynamicSharedInformerFactory (VulnerabilityReport CRDs)
+   ├─ warm in-memory cache  ← Indexer reads from here
    └─ event handlers (OnAdd / OnUpdate / OnDelete)
+   (Dynamic because VulnerabilityReport is a CRD with no generated Go type;
+    objects arrive as *unstructured.Unstructured and are converted locally)
 
 TRIGGER A — a CRD changed (report created/updated/deleted by the operator)
    OnAdd / OnUpdate(report) → enqueue(report key)
@@ -119,8 +121,10 @@ duplicate-series complexity, and controller-runtime's modern default of serving
 `/metrics` over HTTPS-with-authn would fight a plain `ServiceMonitor` scrape.
 
 Concretely:
-- `SharedInformerFactory` for the `VulnerabilityReport` watch → warm cache +
-  `Lister`.
+- `DynamicSharedInformerFactory` for the `VulnerabilityReport` watch → warm
+  cache + Indexer. Dynamic because VulnerabilityReport is a CRD with no
+  generated Go type; a typed `SharedInformerFactory` is used separately for
+  ReplicaSets (built-in type, needed for RS→Deployment roll-up).
 - `client-go/util/workqueue` (rate-limited) for the single workqueue both
   triggers funnel through.
 - A small `net/http` server **we own** for `/metrics`, `/healthz`, `/readyz`.
@@ -248,8 +252,6 @@ kind: VulnerabilityReport
 metadata:
   annotations:
     trivy-operator.aquasecurity.github.io/report-ttl: 168h0m0s
-  creationTimestamp: "2026-06-11T04:08:43Z"
-  generation: 1
   labels:
     app.kubernetes.io/managed-by: trivy-operator
     resource-spec-hash: 8699667f94
@@ -289,7 +291,6 @@ report:
     mediumCount: 0
     noneCount: 0
     unknownCount: 0
-  updateTimestamp: "2026-06-11T04:08:43Z"
   vulnerabilities:
   - fixedVersion: 1.37.0-r58
     installedVersion: 1.37.0-r57
@@ -529,7 +530,7 @@ These let us alert on stale feeds / desync independently of the vuln metrics.
   2. KEV JSON loader + parser (pure, unit-tested)
   3. Enrichment function: `(cve) -> {epss, kev}` (pure, unit-tested)
   4. Prometheus metric registration + gauge wiring
-  5. client-go SharedInformerFactory + lister + workqueue (CRD watch)
+  5. client-go DynamicSharedInformerFactory + indexer + workqueue (CRD watch)
   6. Glue: handler/resync → enrich → set gauges
   7. HTTP server (`/metrics`, `/healthz`, `/readyz`) + self-metrics
   8. Dockerfile + manifests + RBAC
