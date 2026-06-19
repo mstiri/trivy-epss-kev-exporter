@@ -3,8 +3,8 @@
 [![ci](https://github.com/mstiri/trivy-epss-kev-exporter/actions/workflows/ci.yml/badge.svg)](https://github.com/mstiri/trivy-epss-kev-exporter/actions/workflows/ci.yml)
 [![release](https://img.shields.io/github/v/release/mstiri/trivy-epss-kev-exporter)](https://github.com/mstiri/trivy-epss-kev-exporter/releases/latest)
 [![Go version](https://img.shields.io/github/go-mod/go-version/mstiri/trivy-epss-kev-exporter)](https://github.com/mstiri/trivy-epss-kev-exporter/blob/main/go.mod)
-[![license](https://img.shields.io/github/license/mstiri/trivy-epss-kev-exporter)](https://github.com/mstiri/trivy-epss-kev-exporter/blob/main/LICENSE)
-[![Go Report Card](https://goreportcard.com/badge/github.com/mstiri/trivy-epss-kev-exporter)](https://goreportcard.com/report/github.com/mstiri/trivy-epss-kev-exporter)
+[![license](https://img.shields.io/github/license/mstiri/trivy-epss-kev-exporter?v=2)](https://github.com/mstiri/trivy-epss-kev-exporter/blob/main/LICENSE)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mstiri/trivy-epss-kev-exporter?v=2)](https://goreportcard.com/report/github.com/mstiri/trivy-epss-kev-exporter)
 
 A read-only Prometheus exporter that turns [Trivy Operator](https://github.com/aquasecurity/trivy-operator)
 `VulnerabilityReport` CVEs into **exploitability-aware** metrics — enriching each
