@@ -33,9 +33,3 @@ especially relevant:
   endpoints.
 - Issues in how the external feeds are fetched or parsed (e.g. a malicious feed
   response causing unsafe behavior).
-
-## Supported versions
-
-This project is pre-1.0. Security fixes are applied to the latest released
-version. Pin to a released tag (e.g. `v0.1.0`) rather than `latest` for
-reproducible deployments.
