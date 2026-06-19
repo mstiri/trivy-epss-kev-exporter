@@ -1,0 +1,258 @@
+{
+  "apiVersion": "aquasecurity.github.io/v1alpha1",
+  "kind": "VulnerabilityReport",
+  "metadata": {
+    "annotations": {
+      "trivy-operator.aquasecurity.github.io/report-ttl": "168h0m0s"
+    },
+    "creationTimestamp": "2026-06-11T04:08:43Z",
+    "generation": 1,
+    "labels": {
+      "app.kubernetes.io/managed-by": "trivy-operator",
+      "resource-spec-hash": "8699667f94",
+      "trivy-operator.container.name": "litellm",
+      "trivy-operator.resource.kind": "ReplicaSet",
+      "trivy-operator.resource.name": "litellm-85bb58cf94",
+      "trivy-operator.resource.namespace": "litellm"
+    },
+    "name": "replicaset-litellm-85bb58cf94-litellm",
+    "namespace": "litellm",
+    "ownerReferences": [
+      {
+        "apiVersion": "apps/v1",
+        "blockOwnerDeletion": false,
+        "controller": true,
+        "kind": "ReplicaSet",
+        "name": "litellm-85bb58cf94",
+        "uid": "312c846f-0679-40b0-bcf9-418b33ce9170"
+      }
+    ],
+    "resourceVersion": "35775475",
+    "uid": "0b80c1d9-52cd-4715-9d2f-41967cee6c17"
+  },
+  "report": {
+    "artifact": {
+      "digest": "sha256:ec721a5e4b0decb3658c74b696e315dc3e1c664adbfbadded0564ee2d6cc03bc",
+      "repository": "berriai/litellm-database",
+      "tag": "main-v1.83.14-stable.patch.3"
+    },
+    "os": {
+      "family": "wolfi",
+      "name": "20230201"
+    },
+    "registry": {
+      "server": "ghcr.io"
+    },
+    "scanner": {
+      "name": "Trivy",
+      "vendor": "Aqua Security",
+      "version": "0.69.3"
+    },
+    "summary": {
+      "criticalCount": 0,
+      "highCount": 13,
+      "lowCount": 0,
+      "mediumCount": 0,
+      "noneCount": 0,
+      "unknownCount": 0
+    },
+    "updateTimestamp": "2026-06-11T04:08:43Z",
+    "vulnerabilities": [
+      {
+        "fixedVersion": "1.37.0-r58",
+        "installedVersion": "1.37.0-r57",
+        "lastModifiedDate": "2025-04-24T20:15:31Z",
+        "links": [],
+        "packagePURL": "pkg:apk/wolfi/busybox@1.37.0-r57?arch=x86_64&distro=20230201",
+        "primaryLink": "https://avd.aquasec.com/nvd/cve-2023-39810",
+        "publishedDate": "2023-08-28T19:15:07Z",
+        "resource": "busybox",
+        "score": 7.3,
+        "severity": "HIGH",
+        "target": "",
+        "title": "busybox: CPIO command of Busybox allows attackers to execute a directory traversal",
+        "vulnerabilityID": "CVE-2023-39810"
+      },
+      {
+        "fixedVersion": "26.1.1-r0",
+        "installedVersion": "26.0.1-r2",
+        "lastModifiedDate": "2025-12-10T16:08:32Z",
+        "links": [],
+        "packagePURL": "pkg:apk/wolfi/py3-pip-wheel@26.0.1-r2?arch=x86_64&distro=20230201",
+        "primaryLink": "https://avd.aquasec.com/nvd/cve-2025-66418",
+        "publishedDate": "2025-12-05T16:15:51Z",
+        "resource": "py3-pip-wheel",
+        "score": 7.5,
+        "severity": "HIGH",
+        "target": "",
+        "title": "urllib3: urllib3: Unbounded decompression chain leads to resource exhaustion",
+        "vulnerabilityID": "CVE-2025-66418"
+      },
+      {
+        "fixedVersion": "26.1.1-r0",
+        "installedVersion": "26.0.1-r2",
+        "lastModifiedDate": "2025-12-10T16:10:33Z",
+        "links": [],
+        "packagePURL": "pkg:apk/wolfi/py3-pip-wheel@26.0.1-r2?arch=x86_64&distro=20230201",
+        "primaryLink": "https://avd.aquasec.com/nvd/cve-2025-66471",
+        "publishedDate": "2025-12-05T17:16:04Z",
+        "resource": "py3-pip-wheel",
+        "score": 7.5,
+        "severity": "HIGH",
+        "target": "",
+        "title": "urllib3: urllib3 Streaming API improperly handles highly compressed data",
+        "vulnerabilityID": "CVE-2025-66471"
+      },
+      {
+        "fixedVersion": "26.1.1-r0",
+        "installedVersion": "26.0.1-r2",
+        "lastModifiedDate": "2026-01-23T09:15:47Z",
+        "links": [],
+        "packagePURL": "pkg:apk/wolfi/py3-pip-wheel@26.0.1-r2?arch=x86_64&distro=20230201",
+        "primaryLink": "https://avd.aquasec.com/nvd/cve-2026-21441",
+        "publishedDate": "2026-01-07T22:15:44Z",
+        "resource": "py3-pip-wheel",
+        "score": 7.5,
+        "severity": "HIGH",
+        "target": "",
+        "title": "urllib3: urllib3 vulnerable to decompression-bomb safeguard bypass when following HTTP redirects (streaming API)",
+        "vulnerabilityID": "CVE-2026-21441"
+      },
+      {
+        "fixedVersion": "4.0.4, 3.0.2, 2.3.2",
+        "installedVersion": "4.0.3",
+        "lastModifiedDate": "2026-04-01T13:45:11Z",
+        "links": [],
+        "packagePURL": "pkg:npm/picomatch@4.0.3",
+        "primaryLink": "https://avd.aquasec.com/nvd/cve-2026-33671",
+        "publishedDate": "2026-03-26T22:16:30Z",
+        "resource": "picomatch",
+        "score": 6.5,
+        "severity": "HIGH",
+        "target": "",
+        "title": "picomatch: Picomatch: Regular Expression Denial of Service via crafted extglob patterns",
+        "vulnerabilityID": "CVE-2026-33671"
+      },
+      {
+        "fixedVersion": "0.0.27",
+        "installedVersion": "0.0.26",
+        "lastModifiedDate": "2026-05-14T17:00:31Z",
+        "links": [],
+        "packagePURL": "pkg:pypi/python-multipart@0.0.26",
+        "primaryLink": "https://avd.aquasec.com/nvd/cve-2026-42561",
+        "publishedDate": "2026-05-13T21:16:47Z",
+        "resource": "python-multipart",
+        "score": 7.5,
+        "severity": "HIGH",
+        "target": "",
+        "title": "Python-Multipart is a streaming multipart parser for Python. Prior to  ...",
+        "vulnerabilityID": "CVE-2026-42561"
+      },
+      {
+        "fixedVersion": "0.0.27",
+        "installedVersion": "0.0.26",
+        "lastModifiedDate": "2026-05-14T17:00:31Z",
+        "links": [],
+        "packagePURL": "pkg:pypi/python-multipart@0.0.26",
+        "primaryLink": "https://avd.aquasec.com/nvd/cve-2026-42561",
+        "publishedDate": "2026-05-13T21:16:47Z",
+        "resource": "python-multipart",
+        "score": 7.5,
+        "severity": "HIGH",
+        "target": "",
+        "title": "Python-Multipart is a streaming multipart parser for Python. Prior to  ...",
+        "vulnerabilityID": "CVE-2026-42561"
+      },
+      {
+        "fixedVersion": "70.0.0",
+        "installedVersion": "68.1.2",
+        "lastModifiedDate": "2026-04-15T00:35:42Z",
+        "links": [],
+        "packagePURL": "pkg:pypi/setuptools@68.1.2",
+        "primaryLink": "https://avd.aquasec.com/nvd/cve-2024-6345",
+        "publishedDate": "2024-07-15T01:15:01Z",
+        "resource": "setuptools",
+        "score": 8.8,
+        "severity": "HIGH",
+        "target": "",
+        "title": "pypa/setuptools: Remote code execution via download functions in the package_index module in pypa/setuptools",
+        "vulnerabilityID": "CVE-2024-6345"
+      },
+      {
+        "fixedVersion": "78.1.1",
+        "installedVersion": "68.1.2",
+        "lastModifiedDate": "2025-06-12T16:29:01Z",
+        "links": [],
+        "packagePURL": "pkg:pypi/setuptools@68.1.2",
+        "primaryLink": "https://avd.aquasec.com/nvd/cve-2025-47273",
+        "publishedDate": "2025-05-17T16:15:19Z",
+        "resource": "setuptools",
+        "score": 7.1,
+        "severity": "HIGH",
+        "target": "",
+        "title": "setuptools: Path Traversal Vulnerability in setuptools PackageIndex",
+        "vulnerabilityID": "CVE-2025-47273"
+      },
+      {
+        "fixedVersion": "2.7.0",
+        "installedVersion": "2.6.3",
+        "lastModifiedDate": "2026-05-14T13:56:27Z",
+        "links": [],
+        "packagePURL": "pkg:pypi/urllib3@2.6.3",
+        "primaryLink": "https://avd.aquasec.com/nvd/cve-2026-44431",
+        "publishedDate": "2026-05-13T16:16:57Z",
+        "resource": "urllib3",
+        "score": 5.3,
+        "severity": "HIGH",
+        "target": "",
+        "title": "urllib3: urllib3: Information disclosure via cross-origin redirects forwarding sensitive headers",
+        "vulnerabilityID": "CVE-2026-44431"
+      },
+      {
+        "fixedVersion": "2.7.0",
+        "installedVersion": "2.6.3",
+        "lastModifiedDate": "2026-05-14T13:56:27Z",
+        "links": [],
+        "packagePURL": "pkg:pypi/urllib3@2.6.3",
+        "primaryLink": "https://avd.aquasec.com/nvd/cve-2026-44431",
+        "publishedDate": "2026-05-13T16:16:57Z",
+        "resource": "urllib3",
+        "score": 5.3,
+        "severity": "HIGH",
+        "target": "",
+        "title": "urllib3: urllib3: Information disclosure via cross-origin redirects forwarding sensitive headers",
+        "vulnerabilityID": "CVE-2026-44431"
+      },
+      {
+        "fixedVersion": "2.7.0",
+        "installedVersion": "2.6.3",
+        "lastModifiedDate": "2026-05-14T13:49:25Z",
+        "links": [],
+        "packagePURL": "pkg:pypi/urllib3@2.6.3",
+        "primaryLink": "https://avd.aquasec.com/nvd/cve-2026-44432",
+        "publishedDate": "2026-05-13T16:16:57Z",
+        "resource": "urllib3",
+        "score": 7.5,
+        "severity": "HIGH",
+        "target": "",
+        "title": "urllib3: urllib3: Denial of Service due to excessive HTTP response decompression",
+        "vulnerabilityID": "CVE-2026-44432"
+      },
+      {
+        "fixedVersion": "2.7.0",
+        "installedVersion": "2.6.3",
+        "lastModifiedDate": "2026-05-14T13:49:25Z",
+        "links": [],
+        "packagePURL": "pkg:pypi/urllib3@2.6.3",
+        "primaryLink": "https://avd.aquasec.com/nvd/cve-2026-44432",
+        "publishedDate": "2026-05-13T16:16:57Z",
+        "resource": "urllib3",
+        "score": 7.5,
+        "severity": "HIGH",
+        "target": "",
+        "title": "urllib3: urllib3: Denial of Service due to excessive HTTP response decompression",
+        "vulnerabilityID": "CVE-2026-44432"
+      }
+    ]
+  }
+}

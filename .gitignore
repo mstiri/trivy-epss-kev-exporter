@@ -1,0 +1,16 @@
+# OS / editor cruft
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Go build / test output
+/bin/
+*.test
+*.out
+*.cover
+coverage.*
+
+
+# Local notes (not for public distribution)
+/local/

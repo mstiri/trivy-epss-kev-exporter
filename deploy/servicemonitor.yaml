@@ -1,0 +1,29 @@
+# Requires the Prometheus Operator (monitoring.coreos.com CRDs). If your Prometheus
+# selects ServiceMonitors by a label (e.g. release: kube-prometheus-stack), add it
+# under metadata.labels so the operator picks this one up.
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: trivy-epss-kev-exporter
+  namespace: trivy-system
+  labels:
+    app.kubernetes.io/name: trivy-epss-kev-exporter
+    app.kubernetes.io/component: exporter
+    app.kubernetes.io/part-of: trivy
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: trivy-epss-kev-exporter
+  namespaceSelector:
+    matchNames:
+      - trivy-system
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 60s
+      scrapeTimeout: 30s
+      # The exporter sets its own `namespace` label on vuln metrics (the workload
+      # namespace). Without honorLabels, Prometheus overwrites it with the scrape
+      # target's namespace (trivy-system). honorLabels: true preserves the
+      # exporter's value.
+      honorLabels: true

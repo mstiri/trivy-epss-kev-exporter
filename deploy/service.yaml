@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: trivy-epss-kev-exporter
+  namespace: trivy-system
+  labels:
+    app.kubernetes.io/name: trivy-epss-kev-exporter
+    app.kubernetes.io/component: exporter
+    app.kubernetes.io/part-of: trivy
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: trivy-epss-kev-exporter
+  ports:
+    - name: metrics
+      port: 8080
+      targetPort: metrics
+      protocol: TCP
