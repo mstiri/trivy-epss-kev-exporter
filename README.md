@@ -91,11 +91,16 @@ In-cluster, deploy with a single-replica `Deployment` + `ServiceMonitor` and a
 | `--epss-feed-url` (`EPSS_FEED_URL`) | `https://epss.empiricalsecurity.com/epss_scores-current.csv.gz` | gzipped CSV bulk feed |
 | `--kev-feed-url` (`KEV_FEED_URL`) | `https://raw.githubusercontent.com/cisagov/kev-data/refs/heads/develop/known_exploited_vulnerabilities.json` | GitHub mirror of the CISA KEV catalog |
 | `--feed-refresh-interval` | `24h` | both feeds recompute ~daily |
+| `--feed-http-timeout` | `2m` | per-fetch HTTP timeout for feed downloads |
 | `--namespaces` (`NAMESPACES`) | `` (empty) | comma-separated allowlist; empty = all namespaces. Does **not** accept `"all"` as a keyword |
-| `--enable-rollup` | `true` | roll ReplicaSet workloads up to their owning Deployment |
+| `--enable-rollup` | `true` | roll ReplicaSet workloads up to their owning Deployment (needs `replicasets` read RBAC) |
 | `--enable-ransomware` | `true` | emit `trivy_vuln_kev_ransomware` gauge |
 | `--metrics-port` / `--metrics-path` | `8080` / `/metrics` | also serves `/healthz` and `/readyz` |
+| `--log-level` | `info` | `info`, `debug`, or `trace` |
+| `--workers` | `2` | concurrent reconcile workers draining the workqueue |
+| `--resync-interval` | `0` (off) | informer resync; not how feed changes are caught — leave at `0` |
 | `--kubeconfig` | `` (empty) | path to kubeconfig; empty = in-cluster config |
+| `--user-agent` | `trivy-epss-kev-exporter/<version> (+repo URL)` | User-Agent header sent on feed requests |
 
 ## Deployment notes
 
