@@ -14,4 +14,4 @@ resources:
 
 images:
   - name: ghcr.io/mstiri/trivy-epss-kev-exporter
-    newTag: "v0.1.0"
+    newTag: "0.1.0"
