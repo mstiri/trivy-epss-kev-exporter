@@ -19,6 +19,7 @@ spec:
           for: 15m
           labels:
             severity: critical
+            source: trivy-epss-kev-exporter
           annotations:
             summary: "KEV CVE {{ $labels.cve }} on {{ $labels.namespace }}/{{ $labels.workload }}"
             description: "{{ $labels.cve }} ({{ $labels.severity }}) in {{ $labels.resource }} is in the CISA KEV catalog."
@@ -29,6 +30,7 @@ spec:
           for: 5m
           labels:
             severity: critical
+            source: trivy-epss-kev-exporter
           annotations:
             summary: "Ransomware-linked KEV CVE {{ $labels.cve }} on {{ $labels.namespace }}/{{ $labels.workload }}"
 
@@ -38,6 +40,7 @@ spec:
           for: 1h
           labels:
             severity: warning
+            source: trivy-epss-kev-exporter
           annotations:
             summary: "High EPSS ({{ $value | humanize }}) for {{ $labels.cve }} on {{ $labels.namespace }}/{{ $labels.workload }}"
 
@@ -47,6 +50,7 @@ spec:
           for: 1h
           labels:
             severity: warning
+            source: trivy-epss-kev-exporter
           annotations:
             summary: "Top-5% EPSS for {{ $labels.cve }} on {{ $labels.namespace }}/{{ $labels.workload }}"
 
@@ -58,6 +62,7 @@ spec:
           for: 30m
           labels:
             severity: warning
+            source: trivy-epss-kev-exporter
           annotations:
             summary: "EPSS/KEV feed '{{ $labels.feed }}' has not refreshed in over 36h"
 
@@ -67,5 +72,6 @@ spec:
           for: 15m
           labels:
             severity: warning
+            source: trivy-epss-kev-exporter
           annotations:
             summary: "trivy-epss-kev-exporter informer cache is not synced"
