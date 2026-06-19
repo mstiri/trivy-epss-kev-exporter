@@ -1,6 +1,6 @@
 # trivy-epss-kev-exporter
 
-[![build](https://github.com/mstiri/trivy-epss-kev-exporter/actions/workflows/docker-image.yml/badge.svg)](https://github.com/mstiri/trivy-epss-kev-exporter/actions/workflows/docker-image.yml)
+[![ci](https://github.com/mstiri/trivy-epss-kev-exporter/actions/workflows/ci.yml/badge.svg)](https://github.com/mstiri/trivy-epss-kev-exporter/actions/workflows/ci.yml)
 [![license](https://img.shields.io/github/license/mstiri/trivy-epss-kev-exporter)](https://github.com/mstiri/trivy-epss-kev-exporter/blob/main/LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mstiri/trivy-epss-kev-exporter)](https://goreportcard.com/report/github.com/mstiri/trivy-epss-kev-exporter)
 
