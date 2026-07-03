@@ -73,7 +73,10 @@ daily refresh that returns identical data needlessly re-enriches everything.
 - **EPSS**: the CSV preamble carries `model_version` / `score_date`. Unchanged
   marker ⇒ unchanged data ⇒ skip sweep.
 - **KEV**: the JSON has `catalogVersion` / `dateReleased` at the top. Same idea.
-- Fallback: hash the raw payload and compare.
+- Fallback: if a feed carries NO marker (empty pair), we can't diff it, so treat
+  it as changed and sweep every refresh. A redundant sweep is idempotent; a
+  missed change would silently serve stale enrichment. Both feeds always carry a
+  marker today, so this is a safety net, not the normal path.
 
 On a successful-but-unchanged refresh, still update
 `trivy_exporter_feed_last_success_timestamp_seconds`; just don't sweep.

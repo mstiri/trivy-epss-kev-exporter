@@ -70,13 +70,21 @@ func (r *Refresher) RefreshOnce(ctx context.Context) (changed bool, err error) {
 	r.sink.FeedRefreshSucceeded(r.name, time.Now())
 
 	firstLoad := !r.have
-	changed = firstLoad || res.Marker != r.last
+	// An empty marker means the feed carried no version/date fields, so we can't
+	// tell whether the content changed. Re-enrich to be safe rather than freeze:
+	// a redundant sweep is idempotent (recomputes the same gauges), whereas a
+	// missed change would silently serve stale enrichment. In practice both feeds
+	// always carry a marker, so this is a safety net, not the normal path.
+	unknownMarker := res.Marker == [2]string{}
+	changed = firstLoad || unknownMarker || res.Marker != r.last
 	r.last = res.Marker
 	r.have = true
 
 	switch {
 	case firstLoad:
 		klog.InfoS("feed loaded", "feed", r.name, "marker", res.Marker)
+	case unknownMarker:
+		klog.InfoS("feed has no marker; re-enriching all reports to be safe", "feed", r.name)
 	case changed:
 		klog.InfoS("feed content changed; re-enriching all reports", "feed", r.name, "marker", res.Marker)
 	default:
