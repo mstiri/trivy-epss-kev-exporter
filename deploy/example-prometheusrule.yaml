@@ -22,7 +22,7 @@ spec:
             source: trivy-epss-kev-exporter
           annotations:
             summary: "KEV CVE {{ $labels.cve }} on {{ $labels.namespace }}/{{ $labels.workload }}"
-            description: "{{ $labels.cve }} ({{ $labels.severity }}) in {{ $labels.resource }} is in the CISA KEV catalog."
+            description: "{{ $labels.cve }} ({{ $labels.severity }}) in package `{{ $labels.resource }}` is in the CISA KEV catalog."
 
         # KEV CVE linked to a known ransomware campaign — highest priority.
         - alert: RansomwareKnownExploitedVuln
@@ -33,6 +33,7 @@ spec:
             source: trivy-epss-kev-exporter
           annotations:
             summary: "Ransomware-linked KEV CVE {{ $labels.cve }} on {{ $labels.namespace }}/{{ $labels.workload }}"
+            description: "{{ $labels.cve }} ({{ $labels.severity }}) in package `{{ $labels.resource }}` on {{ $labels.namespace }}/{{ $labels.workload }} is a CISA KEV entry linked to a known ransomware campaign — prioritize remediation."
 
         # High predicted exploitation probability (EPSS score over threshold).
         - alert: HighEPSSScore
@@ -42,7 +43,8 @@ spec:
             severity: warning
             source: trivy-epss-kev-exporter
           annotations:
-            summary: "High EPSS ({{ $value | humanize }}) for {{ $labels.cve }} on {{ $labels.namespace }}/{{ $labels.workload }}"
+            summary: 'High EPSS ({{ $value | printf "%.2f" }}) for {{ $labels.cve }} on {{ $labels.namespace }}/{{ $labels.workload }}'
+            description: '{{ $labels.cve }} ({{ $labels.severity }}) in package `{{ $labels.resource }}` on {{ $labels.namespace }}/{{ $labels.workload }} has an EPSS exploitation probability of {{ $value | printf "%.2f" }} (threshold 0.5).'
 
         # Top-percentile EPSS (most-likely-exploited tail), threshold-independent.
         - alert: HighEPSSPercentile
@@ -53,6 +55,7 @@ spec:
             source: trivy-epss-kev-exporter
           annotations:
             summary: "Top-5% EPSS for {{ $labels.cve }} on {{ $labels.namespace }}/{{ $labels.workload }}"
+            description: "{{ $labels.cve }} ({{ $labels.severity }}) in package `{{ $labels.resource }}` on {{ $labels.namespace }}/{{ $labels.workload }} is in the top 5% of CVEs by EPSS percentile ({{ $value | humanizePercentage }})."
 
     - name: trivy-exporter.operational.rules
       rules:
@@ -65,6 +68,7 @@ spec:
             source: trivy-epss-kev-exporter
           annotations:
             summary: "EPSS/KEV feed '{{ $labels.feed }}' has not refreshed in over 36h"
+            description: "The '{{ $labels.feed }}' feed has not refreshed successfully in over 36h, so EPSS/KEV enrichment may be stale. Check trivy_exporter_feed_refresh_failures_total and the exporter logs."
 
         # The informer cache never synced → vuln series may be missing/incomplete.
         - alert: ExporterCacheNotSynced
@@ -75,3 +79,4 @@ spec:
             source: trivy-epss-kev-exporter
           annotations:
             summary: "trivy-epss-kev-exporter informer cache is not synced"
+            description: "The exporter's VulnerabilityReport informer cache has not synced, so vuln series may be missing or incomplete. Check the exporter pod's connectivity to the Kubernetes API and its logs."
