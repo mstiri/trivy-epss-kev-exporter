@@ -72,6 +72,29 @@ func TestRefresher_SweepsOnlyOnContentChange(t *testing.T) {
 	}
 }
 
+// TestRefresher_EmptyMarkerAlwaysSweeps covers the safety net: a feed that
+// carries no marker (empty pair) can't be diffed, so every refresh must
+// re-enrich rather than freeze on the unchanged empty marker.
+func TestRefresher_EmptyMarkerAlwaysSweeps(t *testing.T) {
+	ctx := context.Background()
+	swept := 0
+	load := func(context.Context) (Result, error) {
+		return Result{Marker: [2]string{}, Apply: func() {}}, nil
+	}
+	r := NewRefresher("epss", time.Hour, load, func() { swept++ }, &stubSink{})
+
+	// Three consecutive refreshes with the same (empty) marker must each sweep.
+	for i := 1; i <= 3; i++ {
+		changed, err := r.RefreshOnce(ctx)
+		if err != nil || !changed {
+			t.Fatalf("refresh %d: changed=%v err=%v, want true/nil", i, changed, err)
+		}
+		if swept != i {
+			t.Fatalf("refresh %d: swept=%d, want %d", i, swept, i)
+		}
+	}
+}
+
 func TestRefresher_NilOnChangeIsSafe(t *testing.T) {
 	load := func(context.Context) (Result, error) {
 		return Result{Marker: [2]string{"a", "b"}, Apply: func() {}}, nil
