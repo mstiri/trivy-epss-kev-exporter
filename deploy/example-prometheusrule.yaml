@@ -1,6 +1,13 @@
 # EXAMPLE alerting rules — NOT applied by kustomization.yaml. The exporter emits
 # no alerts itself; alerting policy lives here, keyed off the metric contract.
 # Tune thresholds/severities to your environment before using.
+#
+# Each expr wraps the metric in `max without (pod, instance) (...)` so the alert
+# identity ignores the exporter's pod name / IP. Without this, redeploying the
+# exporter (new pod ⇒ new pod/instance labels) changes every alert's fingerprint,
+# resolving the old alerts and restarting each `for:` window from scratch. The
+# raw series keep pod/instance (they disambiguate the two pods that briefly
+# coexist during a rolling update); only the alert query aggregates them away.
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -15,7 +22,7 @@ spec:
       rules:
         # A known-exploited (CISA KEV) CVE is present on a workload.
         - alert: KnownExploitedVulnPresent
-          expr: trivy_vuln_kev == 1
+          expr: max without (pod, instance) (trivy_vuln_kev) == 1
           for: 15m
           labels:
             severity: critical
@@ -26,7 +33,7 @@ spec:
 
         # KEV CVE linked to a known ransomware campaign — highest priority.
         - alert: RansomwareKnownExploitedVuln
-          expr: trivy_vuln_kev_ransomware == 1
+          expr: max without (pod, instance) (trivy_vuln_kev_ransomware) == 1
           for: 5m
           labels:
             severity: critical
@@ -37,7 +44,7 @@ spec:
 
         # High predicted exploitation probability (EPSS score over threshold).
         - alert: HighEPSSScore
-          expr: trivy_vuln_epss_score > 0.5
+          expr: max without (pod, instance) (trivy_vuln_epss_score) > 0.5
           for: 1h
           labels:
             severity: warning
@@ -48,7 +55,7 @@ spec:
 
         # Top-percentile EPSS (most-likely-exploited tail), threshold-independent.
         - alert: HighEPSSPercentile
-          expr: trivy_vuln_epss_percentile > 0.95
+          expr: max without (pod, instance) (trivy_vuln_epss_percentile) > 0.95
           for: 1h
           labels:
             severity: warning
@@ -61,7 +68,7 @@ spec:
       rules:
         # A feed has not refreshed successfully in too long → enrichment is stale.
         - alert: ExporterFeedStale
-          expr: time() - trivy_exporter_feed_last_success_timestamp_seconds > 36 * 3600
+          expr: time() - max without (pod, instance) (trivy_exporter_feed_last_success_timestamp_seconds) > 36 * 3600
           for: 30m
           labels:
             severity: warning
@@ -72,7 +79,7 @@ spec:
 
         # The informer cache never synced → vuln series may be missing/incomplete.
         - alert: ExporterCacheNotSynced
-          expr: trivy_exporter_cache_synced == 0
+          expr: max without (pod, instance) (trivy_exporter_cache_synced) == 0
           for: 15m
           labels:
             severity: warning
